@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* pLeft;
+    Node* pRight;
+};
+typedef Node *Tree;
+
+Node *CreateNode(int n){
+    Node* p = new Node;
+    p->data = n;
+    p->pLeft = NULL;
+    p->pRight = NULL;
+    return p;
+}
+
+void CreateTree(Tree &t){
+    t = NULL;
+}
+
+void AddNode(Tree &t, Node *p){
+    if(t){
+        if(t->data == p->data)
+        return ;
+        if(t->data < p->data)
+         AddNode(t->pLeft, p);
+        else
+        if(t->data > p->data)
+         AddNode(t->pRight, p);
+    }
+    else
+    t = p;
+}
+
+void InMuc (Tree t, int m, int i, int &j){
+    if(t){
+        if(i == m)
+            j++;
+        InMuc(t->pLeft, m, i+1, j);
+        InMuc(t->pRight, m, i+1, j);
+    }
+}
+
+int DoCao (Tree t){
+    if(!t || (t->pLeft == NULL && t->pRight == NULL))
+        return 0;
+    else {
+        int left = DoCao(t->pLeft);
+        int right = DoCao(t->pRight);
+        return 1+ max(left, right);
+    }
+
+}
+
+int main(){
+    Tree t;
+    CreateTree(t);
+    int n;
+    cin >> n;
+    int m;
+    for(int i=0; i < n; i ++){
+        cin >> m;
+        Node*p = CreateNode(m);
+        AddNode(t, p);
+    }
+    int h=DoCao(t);
+
+    for(int i=0; i<=h; i++){
+        int j=0;
+        InMuc(t, i, 0, j );
+        cout << "So node muc "<<i<<" cua cay la: " << j <<endl;
+    }
+
+}
