@@ -1,0 +1,175 @@
+--xoanguyento----------------------------------
+--inlatrai-------------------------------------
+--duongdi--------------------------------------
+--tang-----------------------------------------
+--bac------------------------------------------
+void printLeafNodes(Tree root)
+{
+    if (!root)
+        return;
+
+    if (!root->left && !root->right)
+    {
+        cout << root->data << " ";
+        return;
+    }
+
+    if (root->left)
+        printLeafNodes(root->left);
+
+    if (root->right)
+        printLeafNodes(root->right);
+}
+int countLeafNode(Tree t)
+{
+    if (t == NULL)
+        return 0;
+    if (isLeafNode(t))
+        return 1;
+    return countLeafNode(t->left) + countLeafNode(t->right);
+}
+bool isLeafNode(Tree l)
+{
+    return (l->left == NULL && l->right == NULL);
+}
+
+--xoanguyento--------------------------------------
+bool isPrime(int a)
+{
+	if (a < 2)
+		return false;
+	for (int i = 2; i <= (float)a/2; i++)
+		if (a % i == 0)
+			return false;
+	return true;
+}
+void output(tree t, int& n, int& check)
+{
+	if (!t)
+		return;
+	if (t)
+	{
+		output(t->left, n, check);
+		if (!isPrime(t->info) || n == 0)
+		{
+			check = 1;
+			cout << t->info << " ";
+		}
+		else
+		    n--;
+		output(t->right, n, check);
+	}
+}
+
+int main()
+{
+	int n;
+	int check = 0;
+	cin >> n;
+	if (t)
+	{
+		output(t, n, check);
+		if (check == 0)
+			cout << "\nNot found tree!";
+	}
+	else
+		cout << "\nNot found tree!";
+	return 0;
+}
+
+--bac------------------------------------------
+int levelTNode (TNode *&Root)
+{
+    int x;
+    if(Root->pLeft==nullptr && Root->pRight==nullptr)
+    {
+        x=0;    return x;
+    }
+    if(Root->pLeft==nullptr&& Root->pRight!=nullptr)
+    {
+        x=1;    return x;
+    }
+    if(Root->pLeft!=nullptr&&Root->pRight==nullptr)
+    {
+        x=1;    return x;
+    }
+    if(Root->pLeft!=nullptr&&Root->pRight!=nullptr)
+    {
+        x=2;    return x;
+    }
+}
+
+--duongdi--------------------------------------
+int dfs(TNode *Root, int x)
+{
+    if(Root == nullptr) return 0;
+    if(Root->data == x) return 1;
+
+    int res = 0;
+    res = dfs(Root->pLeft, x);
+    res = max(res, dfs(Root->pRight, x));
+
+    if(res != 0)
+        return res + 1;
+    return 0;
+
+--tang------------------------------------------
+int maxDeep(TNode *Root)
+{
+    if (Root == nullptr)
+        return -1;
+    else
+    {
+        int a = maxDeep(Root->pLeft);
+        int b = maxDeep(Root->pRight);
+        if (a > b)
+            return a + 1;
+        else
+            return b + 1;
+    }
+}
+
+int findDeep(TNode *&Root, int x)
+{
+    if (Root == nullptr)
+        return -1;
+    int dem = -1;
+    if ((Root->data == x) || (dem = findDeep(Root->pLeft, x)) >= 0 || (dem = findDeep(Root->pRight, x)) >= 0)
+        return dem + 1;
+    return dem;
+}
+
+void deep(TNode *&Root, int k)
+{
+    if (Root != nullptr)
+    {
+        k--;
+        if (Root->pLeft != nullptr)
+            deep(Root->pLeft, k);
+        if (k == 0)
+            cout << Root->data << " ";
+        if (Root->pRight != nullptr)
+            deep(Root->pRight, k);
+    }
+}
+
+void res(TNode *&Root)
+{
+    int n = maxDeep(Root);
+    for (int i = 1; i <= n + 1; i++)
+    {
+        cout << " \nDeep " << i << ": ";
+        deep(Root, i);
+    }
+}
+
+}
+int main()
+{
+    while(true)
+    {
+        cin>>x;
+        if(x==0) break;
+        cout<<dfs(Root,x) - 1<<endl;
+    }
+}
