@@ -38,7 +38,7 @@ void AddNode(Tree &root, Node *node)
         root = node;
     }
 }
-
+--tim-------------------------------
 int FindNode(Tree root, float x)
 {
     if (root)
@@ -52,7 +52,7 @@ int FindNode(Tree root, float x)
     return 0;
 }
 
-// hàm xuất cây nhị phân theo LNR <=> xuất ra các phần tử từ bé đến lớn
+//LNR-------------------------------------------
 void Duyet_LNR(Tree t)
 {
     // nếu cây còn phần tử thì tiếp tục duyệt
@@ -63,6 +63,7 @@ void Duyet_LNR(Tree t)
         Duyet_LNR(t->right);    // duyệt qua phải
     }
 }
+//tong-------------------------------------------
 float TinhTong(Tree c)
 {
     if (c != NULL)
