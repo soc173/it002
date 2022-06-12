@@ -1,0 +1,301 @@
+Input: gồm k dòng:
+
+- k-1 dòng dòng đầu chứa số điện thoại.
+
+- Dòng cuối luôn là số 0 (số 0 này không được tính là số điện thoại).
+
+Output: in ra các số điện thoại đã được sắp xếp theo thứ tự tăng dần.
+void QuickSort(int a[], int left, int right)
+{
+    int i, j, x, y;
+    x = a[(left + right) / 2] % 10000000;
+    y = a[(left + right) / 2] % 10000000;
+    i = left;
+    j = right;
+    while (i <= j)
+    {
+        while ((a[i] % 10000000) < x)
+            i++;
+        while ((a[j] % 10000000) > x)
+            j--;
+        if (i <= j)
+        {
+            swap(a[i], a[j]);
+            i++;
+            j--;
+        }
+    }
+    if (left < j)
+        QuickSort(a, left, j);
+    if (i < right)
+        QuickSort(a, i, right);
+}
+int Nhap(int a[], int n)
+{
+    int u = -1;
+    for (int i = 0; i < 10000000; i++)
+    {
+        cin >> a[i];
+        u += 1;
+        if (a[i] == 0)
+            break;
+    }
+    return u;
+}
+void Xuat(int a[], int right)
+{
+    for (int i = 0; i < right + 1; i++)
+    {
+        if (a[i] != 0)
+            cout << "0" << a[i] << "\n";
+    }
+}
+int main()
+{
+    int a[10000];
+    int n, left, right;
+    left = 0;
+    right = Nhap(a, n);
+    QuickSort(a, left, right);
+    Xuat(a, right);
+    return 0;
+}
+
+Input: gồm k dòng:
+
+- k-1 dòng đầu chứa tọa độ các chậu cây với số đầu là tọa độ x, số sau là tọa độ y.
+
+- Dòng cuối cùng luôn là số 0. (số 0 này không được tính vào danh sách tọa độ).
+
+Output: in ra tọa độ của 2 hàng chậu cây, bắt đầu hàng 1 được ghi số 1 và bắt đầu hàng 2 được ghi số 2. Các tọa độ này được sắp xếp theo thứ tự x tăng dần (độc lập cho từng hàng).
+
+int Nhap(int a[], int b[])
+{
+    int u = 0;
+    int c, d;
+    for (int i = 0; i < 10000000; i++)
+    {
+        cin >> c;
+        if (c == 0)
+            break;
+        cin >> d;
+        a[i] = c;
+        b[i] = d;
+        u += 1;
+    }
+    return u;
+}
+int main()
+{
+    int a[100000];
+    int b[100000];
+    int right;
+    right = Nhap(a, b);
+    bool haveSwap = false;
+    for (int i = 0; i < right - 1; i++)
+    {
+        haveSwap = false;
+        for (int j = 0; j < right - i - 1; j++)
+        {
+            if (a[j] > a[j + 1])
+            {
+                swap(a[j], a[j + 1]);
+                swap(b[j], b[j + 1]);
+                haveSwap = true;
+            }
+        }
+        if (haveSwap == false)
+        {
+            break;
+        }
+    }
+    for (int i = 0; i < right + 1; ++i)
+    {
+        if (a[i] == 0)
+            continue;
+        if (i == 0)
+            cout << "1\n";
+        if (i == (right + 1) / 2)
+            cout << "2\n";
+        cout << a[i] << " " << b[i] << "\n";
+    }
+    return 0;
+}
+
+Cài đặt thuật toán QuickSort.
+
+Input: gồm 2 dòng:
+
+- Dòng thứ 1 chứa số nguyên n là số phần tử của mảng A.
+
+- n dòng tiếp theo là các phần tử của mảng A.
+
+Output: in ra mảng A đã được sắp xếp theo thứ tự tăng dần
+
+void QuickSort(int a[], int left, int right)
+{
+	int i, j, x;
+	x = a[(left + right) / 2];
+	i = left;
+	j = right;
+	while (i <= j)
+	{
+		while (a[i] < x)i++;
+		while (a[j] > x)j--;
+		if (i <= j)
+		{
+			swap(a[i], a[j]);
+			i++;
+			j--;
+		}
+	}
+	if (left < j)
+		QuickSort(a, left,j);	
+	if (i < right)
+		QuickSort(a, i, right);
+
+}
+int main()
+{
+	int n;
+	cin >> n;
+	int a[100];
+	for (int i = 0; i < n; i++)
+		cin >> a[i];
+	QuickSort(a, 0, n-1);
+	for (int i = 0; i < n; i++)
+		cout << a[i] << endl;
+	return 0;
+}
+
+void merge(int arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    /* Tạo các mảng tạm */
+    int L[10000], R[10000];
+
+    /* Copy dữ liệu sang các mảng tạm */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Gộp hai mảng tạm vừa rồi vào mảng arr*/
+    i = 0; // Khởi tạo chỉ số bắt đầu của mảng con đầu tiên
+    j = 0; // Khởi tạo chỉ số bắt đầu của mảng con thứ hai
+    k = l; // IKhởi tạo chỉ số bắt đầu của mảng lưu kết quả
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy các phần tử còn lại của mảng L vào arr nếu có */
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy các phần tử còn lại của mảng R vào arr nếu có */
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+void mergeSort(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        // Tương tự (l+r)/2, nhưng cách này tránh tràn số khi l và r lớn
+        int m = l + (r - l) / 2;
+
+        // Gọi hàm đệ quy tiếp tục chia đôi từng nửa mảng
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
+    }
+}
+void print(int A[], int size)
+{
+    for (auto i = 0; i < size; i++)
+        cout << A[i] << "\n";
+}
+int main()
+{
+    int n;
+    cin >> n;
+    int a[1000];
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    mergeSort(a, 0, n - 1);
+    print(a, n);
+    return 0;
+}
+
+Input:
+
+          -Nhập số nguyên n  là số phần tử của mảng số nguyên a.
+
+          -Lần lượt nhập các phần tử của mảng a.
+
+Output:
+
+          -Xuất mảng sau khi đã sắp xếp giảm dẫn và các bước thực hiện như ví dụ sau
+          void input (int a[], int &n){
+    for (int i=0; i<n; i++){
+        cin >> a[i];
+    }
+}
+
+void output (int a[], int n){
+    for (int i=0; i<n; i++){
+        cout << a[i] << " ";
+    }
+}
+
+void insertionSort (int a[], int n) {
+    for (int i=1; i<n; i++){
+        int x = a[i], pos = i - 1;
+        while (pos >= 0 && x > a[pos]) {
+            a[pos + 1] = a[pos];
+            pos--;
+        }
+        cout << "Vi tri chen cua a[" << i << "] la " << pos + 1 << endl;
+        a[pos + 1] = x;
+        output(a, n);
+        cout << endl;
+    }
+}
+
+int main() {
+    int a[100], n;
+    cin >> n;
+    if (n == 0)
+        cout << "Mang rong. ";
+    else {
+        input (a, n);
+        cout << "Mang truoc khi sap xep la: ";
+        output (a, n);
+        cout << endl;
+        insertionSort(a, n);
+        cout << "Mang sau khi sap xep la: ";
+        output(a, n);
+    }
+}
