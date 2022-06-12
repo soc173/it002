@@ -1,1 +1,112 @@
-bai mau: https://github.com/thantrieu/Java-Best-Tips/blob/main/C%2B%2B/BinarySearchTree.cpp
+bai mau:
+
+// 1. Tạo cây nhị phân tìm kiếm
+// 2. Đếm số node trong cây nhị phân tìm kiếm tong
+// 3. Đếm các node lá trên cây nhị phân tìm kiếm la 
+// 4. Đếm các node có 2 cây con 2con
+// 5. Đếm các node có 1 cây con 1con
+// 6. Đếm các node cành của cây canh
+// 7. Xác định chiều cao của cây cao
+
+    BinarySearchTree() {
+        root = nullptr;
+    }
+    
+    void add(T value) {
+        root = add(root, value);
+    }
+    
+    Node<T>* add(Node<T>* r, T value) {
+        if(r == nullptr) {
+            return new Node<T>(value);
+        }
+        if(value >= r->data) {
+            r->right = add(r->right, value);
+        } else {
+            r->left = add(r->left, value);
+        }
+        return r;
+    }
+    void inOrder(Node<T>* r) {
+        if(r != nullptr) {
+            inOrder(r->left);
+            cout << r->data << ' ';
+            inOrder(r->right);
+        }
+    }
+    //tong-----------------------------------------
+    int totalNode() {
+        return totalNode(root);
+    }
+    int totalNode(Node<T>* r) {
+        if(r == nullptr) {
+            return 0;
+        }
+        return 1 + totalNode(r->left) + totalNode(r->right);
+    }
+    
+    //la-----------------------------------------
+    int countLeafNode() {
+        return countLeafNode(root);
+    }
+    int countLeafNode(Node<T>* r) {
+        if(r == nullptr) {
+            return 0;
+        }
+        if(r->left == nullptr && r->right == nullptr) {
+            return 1;
+        }
+        return countLeafNode(r->left) + countLeafNode(r->right);
+    }
+    //2con-----------------------------------------
+    int countTwoSubTreeNode() {
+        return countTwoSubTreeNode(root);
+    }
+    int countTwoSubTreeNode(Node<T>* r) {
+        if(r == NULL) {
+            return 0;
+        }
+        if(r->left != nullptr && r->right != nullptr) {
+            return 1 + countTwoSubTreeNode(r->left) + countTwoSubTreeNode(r->right);
+        }
+        return countTwoSubTreeNode(r->left) + countTwoSubTreeNode(r->right);
+    }
+    //1con-----------------------------------------
+    int countOneSubTreeNode() {
+        return countOneSubTreeNode(root);
+    }
+    int countOneSubTreeNode(Node<T>* r) {
+        if(r == nullptr) {
+            return 0;
+        }
+        if((r->left != nullptr && r->right == nullptr) ||
+           (r->right != nullptr && r->left == nullptr)) {
+            return 1 + countOneSubTreeNode(r->left) + countOneSubTreeNode(r->right);
+        }
+        return countOneSubTreeNode(r->left) + countOneSubTreeNode(r->right);
+    }
+    //canh-----------------------------------------
+    int countBranchNode() {
+        return countBranchNode(root);
+    }
+    
+    int countBranchNode(Node<T>* r) {
+        if(r == nullptr || (r->left == nullptr && r->right == nullptr)) {
+            return 0;
+        }
+        return 1 + countBranchNode(r->left) + countBranchNode(r->right);
+    }
+    
+    //cao-----------------------------------------
+    int height() {
+        return height(root);
+    }
+    int height(Node<T>* r) {
+        if(r == nullptr || (r->left == nullptr && r->right == nullptr)) {
+            return 0;
+        } else {
+            int leftHeight = height(r->left);
+            int rightHeight = height(r->right);
+            return 1 + max(leftHeight, rightHeight);
+        }
+    }
