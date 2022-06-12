@@ -1,0 +1,102 @@
+
+struct Node
+{
+    float data;
+    Node *left;
+    Node *right;
+};
+
+typedef Node *Tree;
+
+Node *CreateNode(float init)
+{
+    Node *p = new Node;
+    p->data = init;
+    p->left = NULL;
+    p->right = NULL;
+    return p;
+}
+
+void CreateTree(Tree &root)
+{
+    root = NULL;
+}
+
+void AddNode(Tree &root, Node *node)
+{
+    if (root)
+    {
+        if (root->data == node->data)
+            return;
+        if (node->data < root->data)
+            AddNode(root->left, node);
+        else
+            AddNode(root->right, node);
+    }
+    else
+    {
+        root = node;
+    }
+}
+
+int FindNode(Tree root, float x)
+{
+    if (root)
+    {
+        if (root->data == x)
+            return 1;
+        if (x < root->data)
+            return FindNode(root->left, x);
+        return FindNode(root->right, x);
+    }
+    return 0;
+}
+
+// hàm xuất cây nhị phân theo LNR <=> xuất ra các phần tử từ bé đến lớn
+void Duyet_LNR(Tree t)
+{
+    // nếu cây còn phần tử thì tiếp tục duyệt
+    if (t != NULL)
+    {
+        Duyet_LNR(t->left);     // duyệt qua trái
+        cout << t->data << " "; // xuất giá trị của node
+        Duyet_LNR(t->right);    // duyệt qua phải
+    }
+}
+float TinhTong(Tree c)
+{
+    if (c != NULL)
+    {
+        float a = TinhTong(c->left);
+        float b = TinhTong(c->right);
+        return c->data + a + b;
+    }
+    return 0;
+}
+int main()
+{
+    Tree t;
+    CreateTree(t);
+    float a[100000];
+    int dem = 0;
+    float n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+        Node *p = CreateNode(a[i]);
+        AddNode(t, p);
+        dem++;
+    }
+    float x = TinhTong(t) / n;
+    int check = FindNode(t, x);
+    if (check == 1)
+    {
+        cout << "1\n";
+    }
+    else
+    {
+        cout << "0\n";
+    }
+    Duyet_LNR(t);
+}
